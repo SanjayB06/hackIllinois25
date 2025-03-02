@@ -1,9 +1,12 @@
 import os
 import hashlib
+import json
+import logging
 from flask import Flask, request, jsonify, session
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from bson.objectid import ObjectId
+from recommendation_algo import generate_dishes, update_user_feedback
 
 load_dotenv()
 MONGODB_URI = os.getenv("MONGODB_URI")
@@ -14,6 +17,9 @@ users_collection = db["users"]
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
 
@@ -22,9 +28,11 @@ def create_user():
     data = request.get_json()
     if not data:
         return jsonify({"error": "Missing JSON payload"}), 400
-    required_fields = ["username", "email", "password", "liked_foods", "disliked_foods",
-                       "liked_cuisines", "food_allergies", "dietary_restrictions", "location",
-                       "monthly_income", "monthly_bills", "expenses"]
+    required_fields = [
+        "id", "username", "email", "password", "liked_foods", "disliked_foods",
+        "liked_cuisines", "food_allergies", "dietary_restrictions", "location",
+        "monthly_income", "monthly_bills", "expenses"
+    ]
     missing_fields = [field for field in required_fields if field not in data]
     if missing_fields:
         return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
@@ -32,6 +40,7 @@ def create_user():
         return jsonify({"error": "User with that email already exists."}), 400
     hashed_password = hash_password(data["password"])
     user_doc = {
+        "id": data["id"],
         "username": data["username"],
         "email": data["email"],
         "password": hashed_password,
@@ -62,7 +71,8 @@ def login():
         return jsonify({"error": "User not found"}), 404
     if user["password"] != hashed:
         return jsonify({"error": "Invalid credentials"}), 401
-    session["user_id"] = str(user["_id"])
+    # Use the custom "id" if present; otherwise fallback to _id.
+    session["user_id"] = user.get("id", str(user["_id"]))
     return jsonify({"message": "Login successful", "user_id": session["user_id"]})
 
 @app.route("/me", methods=["GET"])
@@ -70,11 +80,58 @@ def get_profile():
     user_id = session.get("user_id")
     if not user_id:
         return jsonify({"error": "Not logged in"}), 401
-    user = users_collection.find_one({"_id": ObjectId(user_id)})
+    # Try to find user by custom "id" field; if not, try _id
+    user = users_collection.find_one({"id": user_id})
+    if not user:
+        user = users_collection.find_one({"_id": ObjectId(user_id)})
     if not user:
         return jsonify({"error": "User not found"}), 404
     user["_id"] = str(user["_id"])
     return jsonify(user)
+
+@app.route("/recommend_dish", methods=["POST"])
+def recommend_dish():
+    data = request.get_json()
+    if not data or "user_id" not in data:
+        return jsonify({"error": "Missing user_id"}), 400
+    # Look up user by custom "id" field; if not, fallback to ObjectId conversion
+    user = users_collection.find_one({"id": data["user_id"]})
+    if not user:
+        try:
+            from bson.objectid import ObjectId
+            user = users_collection.find_one({"_id": ObjectId(data["user_id"])})
+        except Exception as e:
+            return jsonify({"error": "User not found"}), 404
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    # Construct a preferences dictionary expected by the recommendation engine
+    preferences = {
+        "favorite_cuisines": [str(item["cuisine"]) for item in user.get("liked_cuisines", [])],
+        "liked_dishes": user.get("liked_foods", []),
+        "disliked_dishes": user.get("disliked_foods", []),
+        "dietary_restrictions": user.get("dietary_restrictions", [])
+    }
+    query = data.get("query", "Suggest a new dish")
+    recommendations = generate_dishes(preferences, query)
+    if recommendations is None:
+        return jsonify({"error": "Failed to generate dishes"}), 500
+    return jsonify({"recommendations": recommendations})
+
+
+@app.route("/feedback", methods=["POST"])
+def feedback():
+    data = request.get_json()
+    if not data or "user_id" not in data or "dish_name" not in data or "feedback" not in data:
+        return jsonify({"error": "Missing fields"}), 400
+    user = users_collection.find_one({"id": data["user_id"]})
+    if not user:
+        user = users_collection.find_one({"_id": ObjectId(data["user_id"])})
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    updated_user = update_user_feedback(user, data["dish_name"], data["feedback"])
+    users_collection.update_one({"id": data["user_id"]}, {"$set": updated_user})
+    return jsonify({"message": "Feedback processed", "updated_preferences": updated_user["preferences"]})
 
 if __name__ == "__main__":
     app.run(debug=True)
