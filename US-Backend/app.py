@@ -8,7 +8,7 @@ from pricing import calculate_dish_cost
 from bson.objectid import ObjectId
 import json
 from recommendation_algo import generate_dishes, update_user_feedback
-
+from pricing import calculate_dish_cost
 # Load environment variables from .env file
 load_dotenv()
 
