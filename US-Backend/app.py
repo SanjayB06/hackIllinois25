@@ -1,9 +1,17 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-
+import requests
+import os
+from dotenv import load_dotenv
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
+load_dotenv()
+API_KEY = os.getenv("NESSIE_KEY")
+customerID = "67c3888f9683f20dd518c4de"
+
+
+BASE_URL = "http://api.nessieisreal.com"
 # Sample data for transactions and active challenge
 sample_transactions = [
     {"id": "1", "category": "Dining", "description": "Indian Food", "amount": 50, "date": "2023-09-15"},
@@ -24,6 +32,17 @@ active_challenge = {
 @app.route('/')
 def index():
     return jsonify({"message": "Welcome to SpendBoost API"})
+
+@app.route("/customer", methods=["GET"])
+def get_customer():
+    url = f"{BASE_URL}/customers/{customerID}?key={API_KEY}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        return jsonify(response.json())
+    else:
+        return jsonify({"error": f"Failed to retrieve customer: {response.status_code} - {response.text}"}), response.status_code
+
+
 
 @app.route('/transactions', methods=['GET'])
 def get_transactions():
