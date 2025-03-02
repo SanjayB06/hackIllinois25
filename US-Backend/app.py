@@ -5,6 +5,7 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from bson.objectid import ObjectId
+import json
 
 # Load environment variables from .env file
 load_dotenv()
@@ -56,7 +57,7 @@ def create_user():
     if users_collection.find_one({"email": data["email"]}):
         return jsonify({"error": "User with that email already exists."}), 400
     
-    liked_cuisines = customeranalysis.getOvrInsights(data['account_number'])
+    liked_cuisines = (customeranalysis.getOvrInsights(data['account_number']))
 
     hashed_password = hash_password(data["password"])
     user_doc = {
