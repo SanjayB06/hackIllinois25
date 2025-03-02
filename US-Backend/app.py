@@ -5,6 +5,14 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 from bson.objectid import ObjectId
 
+from flask import Flask
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)  # This will allow all origins by default
+# CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+
+
 load_dotenv()
 MONGODB_URI = os.getenv("MONGODB_URI")
 client = MongoClient(MONGODB_URI)
