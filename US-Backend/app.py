@@ -13,6 +13,7 @@ CORS(app)  # This will allow all origins by default
 # CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 
+from customeranalysis import user_insights
 load_dotenv()
 MONGODB_URI = os.getenv("MONGODB_URI")
 client = MongoClient(MONGODB_URI)
@@ -83,6 +84,21 @@ def get_profile():
         return jsonify({"error": "User not found"}), 404
     user["_id"] = str(user["_id"])
     return jsonify(user)
+
+@app.route("/update_liked_cuisines/<string:account_number>", methods=["PUT"])
+def update_liked_cuisines():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "Not logged in"}), 401
+    data = user_insights
+    if not data or "liked_cuisines" not in data:
+        return jsonify({"error": "Missing liked_cuisines field"}), 400
+    users_collection.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": {"liked_cuisines": data["liked_cuisines"]}}
+    )
+    return jsonify({"message": "Liked cuisines updated successfully"})
+
 
 if __name__ == "__main__":
     app.run(debug=True)

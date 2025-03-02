@@ -114,13 +114,15 @@ def extract_key_insights(merchant_analysis):
     cuisine_preferences = cuisine_metrics.sort_values('final_score', ascending=False)
 
     # Create insights dictionary
-    insights = [
-    {
-        'cuisine': cuisine,
-        'weightage': float(data['final_score'])
+    insights = {
+        "liked_cuisines": [
+            {
+                'cuisine': cuisine,
+                'weightage': float(data['final_score'])
+            }
+            for cuisine, data in cuisine_preferences.set_index('category')[['final_score']].to_dict('index').items()
+        ]
     }
-    for cuisine, data in cuisine_preferences.set_index('category')[['final_score']].to_dict('index').items()
-    ]
 
 
     # Pretty print the results
@@ -138,4 +140,4 @@ def extract_key_insights(merchant_analysis):
 
 # Assuming merchant_analysis is your DataFrame
 user_insights = extract_key_insights(merchant_analysis)
-print(user_insights)
+# print(user_insights)

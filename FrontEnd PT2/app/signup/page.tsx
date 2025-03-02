@@ -16,6 +16,7 @@ export default function Signup() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     email: "",
+    accountNumber: "",
     password: "",
     dietType: "omnivore", // "omnivore" | "vegetarian" | "vegan"
     allergies: {
@@ -136,12 +137,27 @@ export default function Signup() {
                   />
                 </div>
                 <div className="space-y-2">
+                  <Label htmlFor="accountNumber" className="text-sage-700">
+                    Account Number
+                  </Label>
+                  <Input
+                    id="accountNumber"
+                    type="text"
+                    placeholder="Enter your account number"
+                    value={formData.accountNumber}
+                    onChange={(e) => handleChange("accountNumber", e.target.value)}
+                    required
+                    className="bg-sage-50 border-sage-200 text-sage-800 placeholder-sage-400"
+                  />
+                </div>
+                <div className="space-y-2">
                   <Label htmlFor="password" className="text-sage-700">
                     Password
                   </Label>
                   <Input
                     id="password"
                     type="password"
+                    placeholder="Type your password in here"
                     value={formData.password}
                     onChange={(e) => handleChange("password", e.target.value)}
                     required
@@ -268,7 +284,7 @@ export default function Signup() {
               </div>
             </div>
             <Button className="w-full bg-sage-100 hover:bg-sage-200 text-sage-800">
-              <GithubIcon className="mr-2 h-4 w-4" /> Google
+              Google
             </Button>
             <p className="text-sm text-sage-600 text-center">
               Already have an account?{" "}
