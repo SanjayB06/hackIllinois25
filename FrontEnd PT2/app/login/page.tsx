@@ -72,7 +72,7 @@ export default function Login() {
             </div>
           </div>
           <Button className="w-full bg-sage-100 hover:bg-sage-200 text-sage-800">
-            <GithubIcon className="mr-2 h-4 w-4" /> Google
+             Google
           </Button>
         </CardContent>
         <CardFooter className="justify-center">
