@@ -33,7 +33,7 @@ db = client.get_database("UserDB")
 users_collection = db["users"]
 
 # Import additional modules (assumes customeranalysis.py exists and defines user_insights)
-# from customeranalysis import user_insights
+import customeranalysis
 
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
@@ -43,7 +43,6 @@ def create_user():
     data = request.get_json()
     if not data:
         return jsonify({"error": "Missing JSON payload"}), 400
-
     required_fields = [
         "username", "email", "password", "liked_foods", "disliked_foods",
         "liked_cuisines", "food_allergies", "dietary_restrictions", "location",
@@ -55,6 +54,8 @@ def create_user():
 
     if users_collection.find_one({"email": data["email"]}):
         return jsonify({"error": "User with that email already exists."}), 400
+    
+    liked_cuisines = customeranalysis.getOvrInsights(data['account_number'])
 
     hashed_password = hash_password(data["password"])
     user_doc = {
@@ -63,7 +64,7 @@ def create_user():
         "password": hashed_password,
         "liked_foods": data["liked_foods"],
         "disliked_foods": data["disliked_foods"],
-        "liked_cuisines": data["liked_cuisines"],
+        "liked_cuisines": liked_cuisines,
         "food_allergies": data["food_allergies"],
         "dietary_restrictions": data["dietary_restrictions"],
         "location": data["location"],
