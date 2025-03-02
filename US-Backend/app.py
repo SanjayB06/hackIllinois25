@@ -32,7 +32,7 @@ client = MongoClient(MONGODB_URI)
 db = client.get_database("UserDB")
 users_collection = db["users"]
 
-# Import additional modules (assumes customeranalysis.py exists and defines user_insights)
+# Import additional modules (if needed)
 # from customeranalysis import user_insights
 
 def hash_password(password: str) -> str:
@@ -44,8 +44,9 @@ def create_user():
     if not data:
         return jsonify({"error": "Missing JSON payload"}), 400
 
+    # Added "account_number" to required fields
     required_fields = [
-        "username", "email", "password", "liked_foods", "disliked_foods",
+        "account_number", "username", "email", "password", "liked_foods", "disliked_foods",
         "liked_cuisines", "food_allergies", "dietary_restrictions", "location",
         "monthly_income", "monthly_bills", "expenses"
     ]
@@ -58,6 +59,7 @@ def create_user():
 
     hashed_password = hash_password(data["password"])
     user_doc = {
+        "account_number": data["account_number"],
         "username": data["username"],
         "email": data["email"],
         "password": hashed_password,
@@ -108,7 +110,10 @@ def update_liked_cuisines():
     if not user_id:
         return jsonify({"error": "Not logged in"}), 401
     # Assume user_insights provides a dict with a key 'liked_cuisines'
-    data = user_insights
+    # Uncomment the next line if you have user_insights imported
+    # data = user_insights
+    # For now, we'll simulate updated liked cuisines for demonstration:
+    data = {"liked_cuisines": ["Italian", "Mexican"]}
     if not data or "liked_cuisines" not in data:
         return jsonify({"error": "Missing liked_cuisines field"}), 400
     users_collection.update_one(

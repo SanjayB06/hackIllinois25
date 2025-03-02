@@ -51,19 +51,21 @@ export default function Signup() {
     e.preventDefault();
     console.log("Form submitted with:", formData);
 
-    // Convert the user’s input to match the Flask endpoint requirements
-    const { email, password, dietType, allergies, mealSize } = formData;
+    // Destructure fields, including accountNumber
+    const { email, accountNumber, password, dietType, allergies, mealSize } = formData;
 
-    // Build arrays from the user’s selected allergies
-    // For example, if gluten=true and dairy=true, then ["gluten", "dairy"]
-    const allergyArray = Object.keys(allergies).filter((key) => allergies[key as keyof typeof allergies]);
+    // Build arrays from the user's selected allergies
+    const allergyArray = Object.keys(allergies).filter(
+      (key) => allergies[key as keyof typeof allergies]
+    );
 
     // If the user is vegetarian or vegan, we treat that as a dietary restriction
     const dietaryRestrictions = dietType === "omnivore" ? [] : [dietType];
 
-    // We'll just set placeholders or empty arrays for the other required fields
+    // Include the account number in the payload.
     const requestBody = {
-      username: email, // or ask the user for a separate "username" field
+      account_number: accountNumber, // Added field
+      username: email, // Alternatively, ask for a separate username
       email,
       password,
       liked_foods: [],            // placeholder array
@@ -96,7 +98,6 @@ export default function Signup() {
       // On success, show a success message and navigate
       const userData = await response.json();
       alert(`User created successfully! ID: ${userData._id}`);
-      // Example: navigate to a "meal" page
       router.push("/meal");
     } catch (err) {
       console.error("Error:", err);
@@ -119,7 +120,6 @@ export default function Signup() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Step 1: Basic Account Info */}
             {step === 1 && (
               <>
                 <div className="space-y-2">
@@ -157,7 +157,7 @@ export default function Signup() {
                   <Input
                     id="password"
                     type="password"
-                    placeholder="Type your password in here"
+                    placeholder="Type your password here"
                     value={formData.password}
                     onChange={(e) => handleChange("password", e.target.value)}
                     required
@@ -174,7 +174,6 @@ export default function Signup() {
               </>
             )}
 
-            {/* Step 2: Dietary Preferences */}
             {step === 2 && (
               <>
                 <div className="space-y-4">
@@ -272,7 +271,6 @@ export default function Signup() {
           </form>
         </CardContent>
 
-        {/* Footer only appears on Step 1 */}
         {step === 1 && (
           <CardFooter className="flex-col space-y-4">
             <div className="relative w-full">
