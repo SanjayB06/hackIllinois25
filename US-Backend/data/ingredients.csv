@@ -1,300 +1,404 @@
 Ingredient,PricePerServing,RawPrice
-Apple,1.65,4.05
-Banana,1.52,7.63
-Orange,0.85,5.47
-Grapes,0.57,6.5
-Strawberry,1.72,6.7
-Blueberry,1.39,7.7
-Raspberry,1.54,3.44
-Blackberry,1.52,6.61
-Pineapple,1.37,7.03
-Mango,0.72,7.43
-Papaya,0.66,4.64
-Kiwi,1.35,5.86
-Peach,1.49,7.66
-Pear,1.14,6.94
-Watermelon,1.46,4.91
-Cantaloupe,1.23,2.32
-Honeydew Melon,1.65,2.44
-Cherry,1.27,6.4
-Pomegranate,1.85,3.61
-Plum,1.0,5.78
-Apricot,1.27,1.95
-Grapefruit,1.79,5.77
-Lemon,1.08,7.2
-Lime,0.92,6.69
-Coconut,1.16,4.34
-Avocado,0.81,4.23
-Passion Fruit,1.36,2.71
-Dragon Fruit,1.92,6.14
-Guava,0.74,3.24
-Lychee,0.7,4.44
-Carrot,1.22,1.96
-Broccoli,1.05,3.16
-Cauliflower,1.05,2.17
-Spinach,1.49,3.86
-Kale,1.03,1.78
-Lettuce,0.96,3.93
-Cabbage,1.11,2.68
-Tomato,0.31,2.95
-Potato,0.8,2.77
-Onion,0.84,2.46
-Garlic,0.59,2.38
-Bell Pepper,1.23,3.57
-Cucumber,0.78,5.55
-Zucchini,1.24,4.5
-Eggplant,0.37,3.96
-Celery,0.98,4.46
-Green Beans,0.62,2.87
-Peas,1.43,4.15
-Corn,0.84,4.41
-Radish,0.33,1.85
-Beetroot,0.61,1.33
-Asparagus,0.54,2.66
-Artichoke,0.78,1.34
-Brussels Sprouts,0.91,2.81
-Mushrooms,1.25,5.86
-Squash,0.33,4.74
-Sweet Potato,0.32,1.53
-Turnip,1.19,1.29
-Pumpkin,0.93,3.24
-Leek,1.36,3.46
-Okra,0.54,3.79
-Arugula,1.18,2.53
-Endive,0.8,5.74
-Fennel,0.93,1.7
-Bok Choy,0.83,3.0
-Swiss Chard,0.82,5.25
-Collard Greens,0.85,3.93
-Watercress,1.2,5.88
-Parsnip,0.89,2.4
-Milk,0.74,4.51
-Butter,0.95,2.44
-Cheddar Cheese,0.97,3.36
-Mozzarella Cheese,1.33,3.51
-Parmesan Cheese,0.93,2.59
-Yogurt,0.67,7.88
-Cream,1.39,4.46
-Cottage Cheese,0.69,7.46
-Sour Cream,0.94,5.21
-Ice Cream,1.12,6.66
-Heavy Cream,0.76,7.19
-Buttermilk,0.51,5.82
-Feta Cheese,0.64,3.79
-Gouda Cheese,1.07,6.0
-Swiss Cheese,0.65,6.43
-Brie Cheese,0.94,6.36
-Blue Cheese,0.5,5.02
-Ricotta Cheese,0.88,7.96
-Cream Cheese,0.95,2.25
-Evaporated Milk,0.8,5.2
-Condensed Milk,0.98,7.15
-Almond Milk,0.52,3.51
-Soy Milk,1.42,4.2
-Coconut Milk,1.1,5.78
-Rice Milk,0.64,3.29
-Kefir,1.33,2.1
-Provolone Cheese,0.95,5.73
-Pepper Jack Cheese,0.58,2.65
-Colby Cheese,0.77,4.13
-Havarti Cheese,0.95,3.69
-Chicken Breast,3.89,19.72
-Chicken Thighs,4.33,12.41
-Ground Chicken,2.56,14.79
-Beef Steak,3.92,13.23
-Ground Beef,2.25,16.21
-Beef Roast,4.4,16.29
-Pork Chop,4.98,8.43
-Ground Pork,2.25,9.68
-Pork Roast,2.93,12.27
-Lamb Chops,2.09,18.82
-Lamb Roast,3.35,8.91
-Turkey Breast,2.85,15.45
-Turkey Legs,3.64,9.84
-Ground Turkey,2.71,11.59
-Bacon,4.36,16.95
-Sausage,3.68,8.55
-Ham,2.98,15.4
-Prosciutto,3.2,10.99
-Veal Cutlet,4.42,9.04
-Duck Breast,3.28,14.43
-Quail,4.74,15.44
-Rabbit,3.63,19.68
-Corned Beef,4.27,15.85
-Brisket,3.85,8.76
-Tri-Tip Steak,2.02,13.78
-Meatballs,4.07,18.11
-Liver,4.46,8.61
-Pork Ribs,3.96,16.37
-Beef Ribs,3.2,11.58
-Chicken Wings,2.64,13.34
-Salmon,3.46,16.5
-Tuna,3.84,24.71
-Shrimp,2.91,10.21
-Cod,2.38,15.72
-Trout,2.85,11.74
-Mackerel,4.38,19.59
-Halibut,4.05,13.44
-Sardines,4.21,17.17
-Crab,3.31,15.12
-Lobster,4.47,12.94
-Scallops,3.95,11.59
-Clams,3.06,15.4
-Mussels,2.74,16.15
-Oysters,3.44,16.39
-Tilapia,2.21,14.72
-Squid,3.4,17.16
-Octopus,3.7,12.43
-Catfish,3.4,18.78
-Bass,3.62,11.97
-Whitefish,4.08,12.1
-Rice,0.51,1.27
-White Rice,0.57,1.49
-Brown Rice,0.45,1.82
-Basmati Rice,0.53,1.28
-Jasmine Rice,0.51,2.32
-Quinoa,0.4,2.2
-Barley,0.45,4.23
-Oats,0.35,1.75
-Bulgur,0.28,1.53
-Couscous,0.16,2.45
-Pasta,0.36,1.05
-Spaghetti,0.39,4.11
-Penne,0.39,2.61
-Macaroni,0.36,1.6
-Fusilli,0.14,4.51
-Lasagna Noodles,0.21,4.22
-Egg Noodles,0.14,3.54
-Rice Noodles,0.33,2.78
-Orzo,0.34,2.93
-Ramen,0.24,2.95
-Black Beans,0.1,1.11
-Kidney Beans,0.22,2.15
-Chickpeas,0.1,2.32
-Lentils,0.59,3.78
-Pinto Beans,0.39,2.36
-Navy Beans,0.55,1.59
-Lima Beans,0.35,1.55
-Green Peas,0.21,2.14
-Soybeans,0.39,3.58
-Mung Beans,0.38,2.64
-Adzuki Beans,0.17,1.46
-Cannellini Beans,0.44,3.8
-Split Peas,0.15,2.37
-Fava Beans,0.37,3.16
-Black-eyed Peas,0.31,2.24
-Almonds,0.8,8.72
-Walnuts,0.91,7.85
-Cashews,0.82,2.55
-Pecans,0.73,3.86
-Pistachios,0.39,7.21
-Hazelnuts,0.69,5.51
-Peanuts,0.6,6.6
-Pumpkin Seeds,0.69,6.25
-Sunflower Seeds,0.22,7.76
-Chia Seeds,0.34,2.59
-Flax Seeds,0.58,3.02
-Sesame Seeds,0.56,3.87
-Brazil Nuts,0.29,9.37
-Macadamia Nuts,0.33,5.75
-Pine Nuts,0.32,3.53
-Salt,0.13,1.44
-Pepper,0.13,2.04
-Paprika,0.13,1.87
-Cumin,0.13,1.23
-Chili Powder,0.12,1.76
-Garlic Powder,0.13,2.99
-Onion Powder,0.24,1.67
-Cinnamon,0.17,1.73
-Nutmeg,0.07,1.68
-Ginger,0.19,0.53
-Turmeric,0.14,0.5
-Oregano,0.19,1.46
-Basil,0.15,0.64
-Thyme,0.14,1.46
-Rosemary,0.17,2.67
-Parsley,0.14,0.76
-Dill,0.15,2.85
-Sage,0.18,1.62
-Bay Leaves,0.19,1.86
-Coriander,0.23,1.37
-Allspice,0.12,2.93
-Cloves,0.19,0.98
-Cardamom,0.21,2.77
-Mustard Seeds,0.2,1.27
-Fenugreek,0.13,1.84
-Saffron,0.25,1.41
-Marjoram,0.24,1.16
-Tarragon,0.2,1.33
-Mint,0.23,2.36
-Lemongrass,0.1,0.86
-Bread,1.01,4.38
-Whole Wheat Bread,0.89,6.26
-Baguette,0.34,4.92
-Croissant,1.28,6.74
-Bagel,0.49,5.74
-Muffin,1.29,4.65
-Donut,0.47,4.56
-Cereal,1.27,5.71
-Granola,0.87,6.78
-Oatmeal,0.61,5.78
-Pancake Mix,1.24,3.99
-Waffles,0.49,1.9
-Tortilla,0.53,3.31
-Pita Bread,0.26,2.41
-English Muffin,0.37,5.73
-Sourdough Bread,0.81,5.55
-Coffee,1.83,4.25
-Tea,1.73,6.19
-Orange Juice,2.37,7.73
-Apple Juice,0.65,4.84
-Grape Juice,2.25,9.94
-Soda,0.97,4.41
-Sparkling Water,1.97,8.92
-Lemonade,2.28,8.18
-Energy Drink,1.54,7.95
-Beer,2.08,7.81
-Ketchup,0.57,5.87
-Mustard,0.38,4.84
-Mayonnaise,0.59,5.5
-Barbecue Sauce,0.46,2.34
-Soy Sauce,0.58,2.12
-Vinegar,0.44,4.35
-Hot Sauce,0.67,1.02
-Salsa,0.26,4.24
-Relish,0.34,1.52
-Pesto,0.54,4.88
-Tahini,0.62,5.92
-Sriracha,0.3,3.55
-Worcestershire Sauce,0.49,4.02
-Teriyaki Sauce,0.54,2.77
-Chocolate,0.34,4.97
-Cocoa Powder,0.71,2.09
-Vanilla Extract,0.48,7.47
-Maple Syrup,1.97,7.87
-Molasses,0.32,1.71
-Peanut Butter,1.9,4.54
-Jelly,0.4,1.76
-Jam,1.18,4.94
-Almond Butter,0.98,5.16
-Marshmallows,1.78,7.11
-Popcorn,1.18,7.27
-Pretzels,1.2,5.0
-Crackers,0.74,3.3
-Rice Cakes,1.33,6.35
-Brown Sugar,1.02,5.76
-Cornstarch,0.74,2.85
-Chocolate Chips,1.88,2.19
-Caramel,0.4,7.61
-Whipped Cream,1.27,4.19
-Nutella,0.59,5.41
-Chicken Broth,1.23,9.41
-Vegetable Broth,1.13,4.62
-Beef Stock,2.13,9.96
-Chicken Stock,0.84,2.61
-Bouillon,2.94,2.1
-Miso Paste,1.99,5.45
-Tofu,0.97,2.99
-Tempeh,2.49,3.51
-Seitan,1.35,2.95
-Edamame,1.7,6.6
+Apple,0.91,6.83
+Banana,1.5,2.65
+Orange,1.26,6.37
+Strawberry,1.05,2.09
+Blueberry,0.67,3.11
+Raspberry,0.66,4.14
+Grapes,0.9,5.81
+Mango,0.71,7.75
+Pineapple,1.4,2.98
+Peach,0.95,3.15
+Pear,1.4,4.85
+Plum,0.86,3.37
+Cherry,1.12,7.49
+Watermelon,1.67,1.66
+Cantaloupe,1.1,7.28
+Kiwi,1.1,6.49
+Lemon,0.62,2.24
+Lime,0.76,3.95
+Papaya,1.94,4.49
+Avocado,1.57,3.54
+Blackberry,1.64,6.19
+Cranberry,0.59,2.53
+Pomegranate,1.01,5.68
+Guava,1.25,2.47
+Passion Fruit,1.41,6.28
+Dragon Fruit,0.7,5.4
+Lychee,1.26,2.12
+Fig,1.29,6.22
+Carrot,0.69,3.45
+Broccoli,0.39,3.9
+Spinach,1.3,5.86
+Tomato,1.09,3.89
+Bell Pepper,1.12,4.97
+Cucumber,1.25,4.63
+Onion,1.42,1.44
+Garlic,1.26,1.94
+Zucchini,1.09,1.11
+Eggplant,1.44,3.76
+Cauliflower,0.64,5.77
+Green Beans,0.63,5.98
+Peas,1.09,5.69
+Corn,0.63,4.23
+Mushrooms,0.33,3.04
+Potato,0.37,4.54
+Sweet Potato,0.52,4.04
+Lettuce,0.48,1.99
+Kale,1.49,3.14
+Cabbage,1.44,4.69
+Asparagus,0.63,4.52
+Brussels Sprouts,1.27,5.98
+Radish,0.87,3.88
+Beet,0.45,2.27
+Celery,0.92,2.69
+Leek,0.64,1.53
+Artichoke,0.61,3.21
+Butternut Squash,1.43,2.75
+Acorn Squash,0.85,3.98
+Turnip,0.88,5.16
+Milk,1.14,4.05
+Cheddar Cheese,1.12,6.13
+Mozzarella,1.27,3.9
+Yogurt,0.63,5.26
+Butter,1.39,2.52
+Cream,1.08,2.26
+Parmesan,0.85,5.68
+Swiss Cheese,0.65,6.36
+Blue Cheese,1.47,2.35
+Feta,0.53,6.66
+Cottage Cheese,0.82,2.24
+Sour Cream,0.94,4.67
+Ricotta,1.36,2.5
+Gouda,1.0,6.23
+Brie,0.74,3.62
+Provolone,1.49,4.07
+Cream Cheese,1.18,4.46
+Eggs,0.98,2.96
+Heavy Cream,1.22,2.61
+Buttermilk,1.39,5.22
+Goat Cheese,1.14,2.34
+Skim Milk,0.81,7.59
+Chicken Breast,4.07,14.33
+Chicken Thighs,4.13,17.91
+Ground Chicken,2.3,10.68
+Beef Steak,2.44,15.94
+Ground Beef,4.22,19.44
+Beef Roast,2.56,12.63
+Pork Chop,2.64,9.19
+Ground Pork,2.55,12.5
+Pork Roast,2.49,12.31
+Lamb Chops,3.51,14.49
+Lamb Roast,3.72,13.76
+Turkey Breast,4.36,8.51
+Turkey Legs,3.76,17.98
+Ground Turkey,2.13,18.43
+Bacon,4.61,13.58
+Sausage,4.84,14.96
+Ham,4.15,9.89
+Prosciutto,3.12,14.19
+Veal Cutlet,3.37,18.15
+Duck Breast,4.52,14.6
+Quail,2.26,15.23
+Rabbit,4.24,11.22
+Corned Beef,3.54,16.72
+Brisket,4.95,10.98
+Tri-Tip Steak,4.42,18.62
+Meatballs,4.09,17.45
+Liver,2.19,15.46
+Pork Ribs,2.1,18.92
+Beef Ribs,3.86,13.19
+Chicken Wings,4.51,9.84
+Goat Meat,3.42,15.33
+Bison,3.76,16.35
+Ostrich,2.82,8.49
+Kangaroo,4.17,15.95
+Salmon,2.96,15.94
+Tuna,4.32,23.44
+Shrimp,3.99,21.45
+Cod,4.07,15.54
+Trout,2.75,12.11
+Mackerel,3.05,24.77
+Halibut,2.92,14.87
+Sardines,3.39,17.51
+Crab,3.9,15.29
+Lobster,3.8,14.04
+Scallops,2.98,15.65
+Clams,3.9,13.27
+Mussels,3.21,16.26
+Oysters,2.06,14.42
+Tilapia,2.55,21.47
+Squid,2.37,18.28
+Octopus,2.58,19.66
+Catfish,2.33,23.3
+Bass,4.4,13.79
+Whitefish,2.89,12.15
+Swordfish,2.97,16.26
+Haddock,4.43,13.71
+Eel,2.09,11.72
+Monkfish,3.3,19.75
+Sea Bass,2.34,15.59
+Rice,0.11,3.14
+White Rice,0.41,2.15
+Brown Rice,0.6,4.42
+Basmati Rice,0.42,1.43
+Jasmine Rice,0.44,1.65
+Quinoa,0.39,3.59
+Barley,0.46,2.48
+Oats,0.36,3.01
+Bulgur,0.18,2.2
+Couscous,0.51,3.78
+Pasta,0.31,1.12
+Spaghetti,0.46,2.99
+Penne,0.19,2.07
+Macaroni,0.57,3.0
+Fusilli,0.33,3.1
+Lasagna Noodles,0.27,4.34
+Egg Noodles,0.57,2.74
+Rice Noodles,0.21,4.17
+Orzo,0.58,2.13
+Ramen,0.35,4.31
+Millet,0.3,2.49
+Sorghum,0.3,4.83
+Freekeh,0.52,1.81
+Amaranth,0.31,3.54
+Black Beans,0.56,1.28
+Kidney Beans,0.42,3.04
+Chickpeas,0.36,2.49
+Lentils,0.36,3.27
+Pinto Beans,0.14,2.41
+Navy Beans,0.37,3.02
+Lima Beans,0.34,1.85
+Green Peas,0.18,3.49
+Soybeans,0.18,2.54
+Mung Beans,0.28,3.82
+Adzuki Beans,0.54,1.51
+Cannellini Beans,0.26,1.43
+Split Peas,0.34,2.06
+Fava Beans,0.47,3.13
+Black-eyed Peas,0.25,3.72
+Pigeon Peas,0.48,1.82
+Bambara Beans,0.32,3.82
+Almonds,0.28,7.09
+Walnuts,0.7,3.98
+Cashews,0.34,5.32
+Pecans,0.7,3.86
+Pistachios,0.86,5.36
+Hazelnuts,0.22,2.22
+Peanuts,0.25,5.57
+Pumpkin Seeds,0.35,2.8
+Sunflower Seeds,0.95,6.22
+Chia Seeds,0.24,5.08
+Flax Seeds,0.73,5.78
+Sesame Seeds,0.65,7.48
+Brazil Nuts,0.21,7.82
+Macadamia Nuts,0.39,2.49
+Pine Nuts,0.74,5.82
+Chestnuts,0.57,4.89
+Hemp Seeds,0.99,3.46
+Watermelon Seeds,0.95,9.1
+Salt,0.06,1.09
+Pepper,0.13,2.39
+Paprika,0.1,2.44
+Cumin,0.1,2.07
+Chili Powder,0.13,2.55
+Garlic Powder,0.15,2.36
+Onion Powder,0.23,2.03
+Cinnamon,0.06,1.09
+Nutmeg,0.2,2.23
+Ginger,0.13,1.54
+Turmeric,0.14,1.51
+Oregano,0.12,0.94
+Basil,0.2,0.92
+Thyme,0.1,1.83
+Rosemary,0.21,1.67
+Parsley,0.13,2.33
+Dill,0.13,0.65
+Sage,0.14,2.84
+Bay Leaves,0.21,2.47
+Coriander,0.06,2.15
+Allspice,0.22,0.51
+Cloves,0.17,1.18
+Cardamom,0.24,0.95
+Mustard Seeds,0.06,0.7
+Fenugreek,0.12,2.98
+Saffron,0.09,1.31
+Marjoram,0.19,2.85
+Tarragon,0.12,2.8
+Mint,0.2,2.11
+Lemongrass,0.11,1.25
+Star Anise,0.2,1.9
+Fennel Seeds,0.11,1.7
+Celery Seed,0.15,2.27
+Sumac,0.14,0.64
+Lavender,0.12,1.15
+Curry Powder,0.13,1.68
+Smoked Paprika,0.23,0.69
+White Pepper,0.1,1.47
+Chinese Five Spice,0.22,2.32
+Herbes de Provence,0.21,0.77
+Bread,0.89,1.75
+Whole Wheat Bread,0.95,6.78
+Baguette,1.39,6.59
+Croissant,1.03,4.72
+Bagel,0.86,4.74
+Muffin,1.35,4.19
+Donut,1.26,5.99
+Cereal,0.62,1.57
+Granola,0.67,2.47
+Oatmeal,1.18,5.4
+Pancake Mix,0.66,5.21
+Waffles,0.3,4.28
+Tortilla,1.05,6.35
+Pita Bread,0.53,1.53
+English Muffin,0.6,6.45
+Sourdough Bread,0.83,5.34
+Ciabatta,1.11,3.42
+Focaccia,1.21,3.86
+Rye Bread,1.06,5.17
+Scone,1.46,3.71
+Brioche,0.36,3.36
+Coffee,0.91,4.53
+Tea,2.4,7.6
+Orange Juice,1.19,6.65
+Apple Juice,1.19,8.26
+Grape Juice,0.56,6.06
+Soda,0.7,8.91
+Sparkling Water,1.1,5.4
+Lemonade,1.69,1.97
+Energy Drink,1.53,8.23
+Beer,0.82,6.23
+Wine,2.32,5.14
+Champagne,1.66,6.84
+Whiskey,1.58,2.5
+Vodka,0.62,7.79
+Iced Tea,1.98,4.93
+Milkshake,1.07,2.77
+Smoothie,1.57,5.66
+Cider,2.28,6.6
+Hot Chocolate,1.38,3.02
+Ketchup,0.53,3.9
+Mustard,0.62,3.23
+Mayonnaise,0.7,4.86
+Barbecue Sauce,0.12,2.03
+Soy Sauce,0.72,5.07
+Vinegar,0.22,1.13
+Hot Sauce,0.69,1.91
+Salsa,0.67,4.13
+Relish,0.73,5.52
+Pesto,0.46,5.23
+Tahini,0.18,1.39
+Sriracha,0.4,4.05
+Worcestershire Sauce,0.48,2.75
+Teriyaki Sauce,0.5,4.68
+Ranch Dressing,0.24,4.31
+Blue Cheese Dressing,0.19,5.85
+Buffalo Sauce,0.38,4.56
+Fish Sauce,0.44,4.44
+Chutney,0.71,5.97
+Honey Mustard,0.67,4.48
+Aioli,0.11,1.85
+Chocolate,1.89,5.71
+Cocoa Powder,1.54,1.52
+Vanilla Extract,1.22,7.58
+Maple Syrup,1.98,6.26
+Molasses,0.49,1.61
+Peanut Butter,1.92,3.93
+Jelly,1.12,5.59
+Jam,0.71,5.64
+Almond Butter,1.57,6.48
+Marshmallows,0.76,3.27
+Popcorn,0.93,6.26
+Pretzels,1.31,7.6
+Crackers,1.5,2.36
+Rice Cakes,1.31,2.88
+Brown Sugar,1.83,3.41
+Cornstarch,1.18,3.65
+Chocolate Chips,1.36,2.22
+Caramel,1.71,5.86
+Whipped Cream,1.74,7.12
+Nutella,1.98,2.36
+Marzipan,0.96,7.17
+Nougat,1.03,4.82
+Chicken Broth,1.64,5.66
+Vegetable Broth,1.61,3.7
+Beef Stock,0.52,8.97
+Chicken Stock,1.58,5.63
+Bouillon,2.98,3.76
+Miso Paste,1.88,8.03
+Tofu,2.42,6.51
+Tempeh,1.41,4.24
+Seitan,2.9,2.77
+Edamame,2.89,2.68
+Textured Vegetable Protein (TVP),0.55,11.56
+Pea Protein,0.64,3.58
+Olive Oil,1.15,3.61
+Canola Oil,1.12,8.88
+Vegetable Oil,1.01,7.86
+Coconut Oil,1.37,2.81
+Sesame Oil,0.78,4.65
+Avocado Oil,0.38,5.95
+Peanut Oil,1.03,8.53
+Sunflower Oil,1.31,4.55
+Ghee,0.87,2.67
+Lard,0.74,5.98
+Palm Oil,1.46,2.3
+Flaxseed Oil,1.1,9.2
+Safflower Oil,1.12,2.99
+Rice Bran Oil,1.17,9.83
+Walnut Oil,0.69,9.21
+Hemp Oil,1.03,2.74
+Truffle Oil,1.42,9.87
+Flour,0.72,2.59
+Sugar,0.71,5.06
+Baking Powder,1.84,3.28
+Baking Soda,0.32,4.12
+Yeast,1.15,2.1
+Honey,0.83,5.91
+Corn Syrup,1.0,4.28
+Icing Sugar,1.86,5.12
+Brown Sugar,1.6,5.37
+Vanilla Bean,1.91,3.69
+Molasses,1.69,3.87
+Maple Syrup,1.76,6.96
+Caramel,1.11,2.55
+Sprinkles,0.74,5.67
+Cocoa Butter,0.65,3.45
+Cocoa Nibs,0.9,5.97
+Glucose Syrup,1.76,5.7
+Agave Nectar,1.5,2.56
+Sauerkraut,1.34,2.45
+Kimchi,1.45,5.75
+Pickled Cucumbers,0.62,4.68
+Olives,0.52,3.42
+Kombucha,1.14,5.05
+Natto,0.36,6.96
+Fermented Tofu,0.72,6.04
+Fermented Vegetables,1.22,2.05
+Sourdough Starter,1.34,3.71
+Pickled Beets,0.36,4.71
+Almond Milk,0.6,4.18
+Soy Milk,1.28,9.08
+Coconut Milk,0.72,7.18
+Oat Milk,0.79,9.79
+Rice Milk,1.29,9.12
+Cashew Milk,0.88,3.85
+Hemp Milk,1.47,7.55
+Pea Milk,0.69,4.88
+Flax Milk,1.88,3.07
+Macadamia Milk,1.52,3.74
+Nori,0.59,9.21
+Kombu,2.2,5.06
+Wakame,2.93,11.72
+Dulse,1.36,3.57
+Hijiki,1.92,2.56
+Ice Cream,1.54,3.91
+Cake,1.38,10.34
+Pie,1.56,3.08
+Cookie,1.87,2.84
+Brownie,2.05,5.65
+Pudding,2.61,8.09
+Custard,2.91,2.82
+Fudge,2.37,4.23
+Mousse,2.99,6.67
+Macarons,1.63,3.93
