@@ -40,7 +40,7 @@ export default function Home() {
                 </div>
               </div>
               <Button className="w-full bg-sage-600 hover:bg-sage-700 text-white font-display">
-                <GithubIcon className="mr-2 h-4 w-4" /> Google
+                Google
               </Button>
             </div>
           </div>

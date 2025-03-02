@@ -3,22 +3,40 @@ import hashlib
 import json
 import logging
 from flask import Flask, request, jsonify, session
+from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from bson.objectid import ObjectId
 from recommendation_algo import generate_dishes, update_user_feedback
 
+# Load environment variables from .env file
 load_dotenv()
+
+# Retrieve environment variables by key
 MONGODB_URI = os.getenv("MONGODB_URI")
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+# Ensure required variables are set
+if not MONGODB_URI:
+    raise Exception("MONGODB_URI environment variable not set!")
+if not SECRET_KEY:
+    raise Exception("SECRET_KEY environment variable not set!")
+
+# Initialize Flask app once
+app = Flask(__name__)
+app.secret_key = SECRET_KEY
+
+# Enable CORS (allow all origins or restrict as needed)
+CORS(app)
+# Example: CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+
+# Set up MongoDB connection
 client = MongoClient(MONGODB_URI)
 db = client.get_database("UserDB")
 users_collection = db["users"]
 
-app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Import additional modules (assumes customeranalysis.py exists and defines user_insights)
+# from customeranalysis import user_insights
 
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
@@ -36,8 +54,10 @@ def create_user():
     missing_fields = [field for field in required_fields if field not in data]
     if missing_fields:
         return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+
     if users_collection.find_one({"email": data["email"]}):
         return jsonify({"error": "User with that email already exists."}), 400
+
     hashed_password = hash_password(data["password"])
     user_doc = {
         "id": data["id"],
@@ -132,6 +152,21 @@ def feedback():
     updated_user = update_user_feedback(user, data["dish_name"], data["feedback"])
     users_collection.update_one({"id": data["user_id"]}, {"$set": updated_user})
     return jsonify({"message": "Feedback processed", "updated_preferences": updated_user["preferences"]})
+
+@app.route("/update_liked_cuisines/<string:account_number>", methods=["PUT"])
+def update_liked_cuisines():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "Not logged in"}), 401
+    # Assume user_insights provides a dict with a key 'liked_cuisines'
+    data = user_insights
+    if not data or "liked_cuisines" not in data:
+        return jsonify({"error": "Missing liked_cuisines field"}), 400
+    users_collection.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": {"liked_cuisines": data["liked_cuisines"]}}
+    )
+    return jsonify({"message": "Liked cuisines updated successfully"})
 
 if __name__ == "__main__":
     app.run(debug=True)
