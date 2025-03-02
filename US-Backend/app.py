@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from bson.objectid import ObjectId
 import json
 from recommendation_algo import generate_dishes, update_user_feedback
-
+from pricing import calculate_dish_cost
 # Load environment variables from .env file
 load_dotenv()
 
@@ -175,6 +175,19 @@ def update_liked_cuisines():
         return jsonify({"error": "Failed to update liked cuisines"}), 500
 
     return jsonify({"message": "Liked cuisines updated successfully"})
+
+
+@app.route("/calculate_dish_cost", methods=["POST"])
+def calculate_dish_cost_endpoint():
+    data = request.get_json()
+    ingredients = data.get("ingredients")
+    if not ingredients:
+        print("No ingredients provided")  # Debugging line
+        return jsonify({"error": "No ingredients provided."}), 400
+
+    result = calculate_dish_cost(ingredients)
+    return jsonify(result)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

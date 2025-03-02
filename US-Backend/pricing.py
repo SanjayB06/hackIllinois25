@@ -2,10 +2,9 @@ import csv
 from flask import Flask, request, jsonify
 from fuzzywuzzy import process, fuzz
 
-app = Flask(__name__)
 
 # Load ingredients and their raw prices from CSV
-def load_ingredients(csv_file="Ingredients.csv"):
+def load_ingredients(csv_file="data/ingredients.csv"):
     ingredient_data = {}
     with open(csv_file, newline="", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
@@ -21,7 +20,7 @@ def load_ingredients(csv_file="Ingredients.csv"):
     return ingredient_data
 
 # Load the CSV data once at startup
-ingredient_data = load_ingredients("Ingredients.csv")
+ingredient_data = load_ingredients("data/ingredients.csv")
 ingredient_names = list(ingredient_data.keys())
 
 def match_ingredient(query: str):
@@ -60,24 +59,3 @@ def calculate_dish_cost(ingredients: list) -> dict:
         })
     return {"total_cost": round(total_cost, 2), "details": details}
 
-@app.route("/")
-def index():
-    return "Dish Cost Calculator API is running."
-
-@app.route("/calculate_dish_cost", methods=["POST"])
-def calculate_dish_cost_endpoint():
-    """
-    Expects a JSON payload of the form:
-      { "ingredients": ["dough", "tomatoes", "mozzarella", "basil"] }
-    Returns the total cost and matching details for each ingredient.
-    """
-    data = request.get_json()
-    ingredients = data.get("ingredients")
-    if not ingredients:
-        return jsonify({"error": "No ingredients provided."}), 400
-
-    result = calculate_dish_cost(ingredients)
-    return jsonify(result)
-
-if __name__ == "__main__":
-    app.run(debug=True)
