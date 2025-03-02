@@ -1,2 +1,8 @@
 Flask
 flask-cors
+openai
+python-dotenv
+fastapi
+uvicorn
+motor
+pymongo

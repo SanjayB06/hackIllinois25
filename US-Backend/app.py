@@ -1,66 +1,80 @@
-from flask import Flask, jsonify, request
-from flask_cors import CORS
-import requests
 import os
+import hashlib
+from flask import Flask, request, jsonify, session
+from pymongo import MongoClient
 from dotenv import load_dotenv
-app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+from bson.objectid import ObjectId
 
 load_dotenv()
-API_KEY = os.getenv("NESSIE_KEY")
-customerID = "67c3888f9683f20dd518c4de"
+MONGODB_URI = os.getenv("MONGODB_URI")
+client = MongoClient(MONGODB_URI)
+db = client.get_database("UserDB")
+users_collection = db["users"]
 
+app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY")
 
-BASE_URL = "http://api.nessieisreal.com"
-# Sample data for transactions and active challenge
-sample_transactions = [
-    {"id": "1", "category": "Dining", "description": "Indian Food", "amount": 50, "date": "2023-09-15"},
-    {"id": "2", "category": "Groceries", "description": "Supermarket", "amount": 75, "date": "2023-09-14"},
-    {"id": "3", "category": "Transport", "description": "Uber Ride", "amount": 20, "date": "2023-09-14"}
-]
+def hash_password(password: str) -> str:
+    return hashlib.sha256(password.encode()).hexdigest()
 
-active_challenge = {
-    "id": "challenge1",
-    "title": "Chill on Indian Food",
-    "description": "Your spending on Indian Food is high. This week, try to cut it down by $15!",
-    "currentAmount": 50,
-    "targetAmount": 35,
-    "progress": 0,
-    "daysLeft": 3
-}
-
-@app.route('/')
-def index():
-    return jsonify({"message": "Welcome to SpendBoost API"})
-
-@app.route("/customer", methods=["GET"])
-def get_customer():
-    url = f"{BASE_URL}/customers/{customerID}?key={API_KEY}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        return jsonify(response.json())
-    else:
-        return jsonify({"error": f"Failed to retrieve customer: {response.status_code} - {response.text}"}), response.status_code
-
-
-
-@app.route('/transactions', methods=['GET'])
-def get_transactions():
-    # In a real scenario, fetch data from your database or an external API
-    return jsonify(sample_transactions)
-
-@app.route('/challenge', methods=['GET'])
-def get_challenge():
-    return jsonify(active_challenge)
-
-@app.route('/update-challenge', methods=['POST'])
-def update_challenge():
-    # This endpoint accepts updates for the challenge (for example, when progress is made)
+@app.route("/create_user", methods=["POST"])
+def create_user():
     data = request.get_json()
-    # Here you’d update your database or in-memory object; for now, just update the active challenge.
-    active_challenge.update(data)
-    return jsonify({"message": "Challenge updated", "challenge": active_challenge}), 200
+    if not data:
+        return jsonify({"error": "Missing JSON payload"}), 400
+    required_fields = ["username", "email", "password", "liked_foods", "disliked_foods",
+                       "liked_cuisines", "food_allergies", "dietary_restrictions", "location",
+                       "monthly_income", "monthly_bills", "expenses"]
+    missing_fields = [field for field in required_fields if field not in data]
+    if missing_fields:
+        return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+    if users_collection.find_one({"email": data["email"]}):
+        return jsonify({"error": "User with that email already exists."}), 400
+    hashed_password = hash_password(data["password"])
+    user_doc = {
+        "username": data["username"],
+        "email": data["email"],
+        "password": hashed_password,
+        "liked_foods": data["liked_foods"],
+        "disliked_foods": data["disliked_foods"],
+        "liked_cuisines": data["liked_cuisines"],
+        "food_allergies": data["food_allergies"],
+        "dietary_restrictions": data["dietary_restrictions"],
+        "location": data["location"],
+        "monthly_income": data["monthly_income"],
+        "monthly_bills": data["monthly_bills"],
+        "expenses": data["expenses"]
+    }
+    result = users_collection.insert_one(user_doc)
+    user_doc["_id"] = str(result.inserted_id)
+    return jsonify(user_doc), 201
 
-if __name__ == '__main__':
-    # Run the app on port 5000 by default
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    if not data or "email" not in data or "password" not in data:
+        return jsonify({"error": "Missing email or password"}), 400
+    email = data["email"]
+    password = data["password"]
+    hashed = hash_password(password)
+    user = users_collection.find_one({"email": email})
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    if user["password"] != hashed:
+        return jsonify({"error": "Invalid credentials"}), 401
+    session["user_id"] = str(user["_id"])
+    return jsonify({"message": "Login successful", "user_id": session["user_id"]})
+
+@app.route("/me", methods=["GET"])
+def get_profile():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "Not logged in"}), 401
+    user = users_collection.find_one({"_id": ObjectId(user_id)})
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    user["_id"] = str(user["_id"])
+    return jsonify(user)
+
+if __name__ == "__main__":
     app.run(debug=True)

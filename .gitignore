@@ -1,2 +1,6 @@
 .venv
 package-lock.json
+US-Backend/.env
+package-lock.json
+node_modules/
+.next/
