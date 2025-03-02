@@ -4,12 +4,12 @@ import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Utensils, ShoppingCart, Leaf, Flame, ThumbsUp, ThumbsDown } from "lucide-react"
+import { Utensils, Leaf, Flame, ThumbsUp, ThumbsDown, ShoppingCart, Droplet } from "lucide-react"
 
 interface Meal {
   id: number
   name: string
-  image: string
+  image?: string
   description: string
   calories: number
   protein: number
@@ -18,23 +18,20 @@ interface Meal {
   ingredients?: string[]
 }
 
-// Helper: Generate random nutrition values
+// Helper: Generate random nutrition values within new ranges and calculate calories.
 const generateRandomNutrition = () => {
-  return {
-    calories: Math.floor(Math.random() * (800 - 300 + 1)) + 300,  // 300 - 800
-    protein: Math.floor(Math.random() * (40 - 10 + 1)) + 10,       // 10g - 40g
-    carbs: Math.floor(Math.random() * (100 - 30 + 1)) + 30,        // 30g - 100g
-    fat: Math.floor(Math.random() * (30 - 5 + 1)) + 5,             // 5g - 30g
-  }
+  const protein = Math.floor(Math.random() * (30 - 10 + 1)) + 10   // 10g - 30g
+  const carbs = Math.floor(Math.random() * (80 - 30 + 1)) + 30       // 30g - 80g
+  const fat = Math.floor(Math.random() * (20 - 5 + 1)) + 5           // 5g - 20g
+  const calories = 9 * fat + 4 * carbs + 4 * protein
+  return { protein, carbs, fat, calories }
 }
 
-// Fallback dummy meal without nutrition values (they will be set on the client)
 const dummyMeal: Meal = {
   id: 1,
   name: "Margherita Pizza",
-  image: "/placeholder.svg?height=300&width=400",
   description: "Classic pizza with fresh tomatoes, mozzarella, basil, and a crispy crust.",
-  calories: 0, // default value
+  calories: 0,
   protein: 0,
   carbs: 0,
   fat: 0,
@@ -45,11 +42,10 @@ export const MealSuggestion: React.FC = () => {
   const [currentMeal, setCurrentMeal] = useState<Meal>(dummyMeal)
   const [direction, setDirection] = useState<"left" | "right" | null>(null)
   const [showIngredients, setShowIngredients] = useState(false)
+  const [totalCost, setTotalCost] = useState<number | null>(null)
 
-  // Retrieve username from localStorage (set on login)
   const storedUsername = typeof window !== "undefined" ? localStorage.getItem("username") : null
 
-  // Fetch recommended dishes from the backend and pick the first one
   const fetchRecommendedDish = async () => {
     if (!storedUsername) return
 
@@ -62,13 +58,11 @@ export const MealSuggestion: React.FC = () => {
       const data = await response.json()
       if (data.recommendations && data.recommendations.length > 0) {
         const baseDish = data.recommendations[0]
-        // Set the dish without nutrition info first
         const dish: Meal = {
           id: Date.now(),
           name: baseDish.name || dummyMeal.name,
-          image: baseDish.image || dummyMeal.image,
           description: baseDish.description || dummyMeal.description,
-          calories: 0, // to be updated on client
+          calories: 0,
           protein: 0,
           carbs: 0,
           fat: 0,
@@ -81,16 +75,36 @@ export const MealSuggestion: React.FC = () => {
     }
   }
 
-  // Update nutrition values on client mount (or when currentMeal changes with 0 nutrition)
+  // Update nutrition on client mount or when currentMeal lacks nutrition values.
   useEffect(() => {
-    // Only update if nutrition hasn't been set yet
     if (currentMeal.calories === 0) {
       const nutrition = generateRandomNutrition()
       setCurrentMeal((prevMeal) => ({ ...prevMeal, ...nutrition }))
     }
   }, [currentMeal])
 
-  // Send feedback to the backend (like/dislike) for the current dish
+  const calculateDishCost = async () => {
+    if (!currentMeal.ingredients) return
+
+    try {
+      const response = await fetch('http://localhost:5000/calculate_dish_cost', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ingredients: currentMeal.ingredients })
+      })
+      const data = await response.json()
+      setTotalCost(data.total_cost)
+    } catch (error) {
+      console.error('Error calculating dish cost:', error)
+    }
+  }
+
+  useEffect(() => {
+    if (showIngredients && currentMeal.ingredients) {
+      calculateDishCost()
+    }
+  }, [showIngredients])
+
   const sendFeedback = async (dishName: string, feedbackType: "like" | "dislike") => {
     if (!storedUsername) return
 
@@ -115,7 +129,6 @@ export const MealSuggestion: React.FC = () => {
     if (!currentMeal) return
     await sendFeedback(currentMeal.name, "like")
     setShowIngredients(true)
-    // Do not refresh the card on like
   }
 
   const handleDislike = async () => {
@@ -126,6 +139,7 @@ export const MealSuggestion: React.FC = () => {
       fetchRecommendedDish()
       setDirection(null)
       setShowIngredients(false)
+      setTotalCost(null)
     }, 300)
   }
 
@@ -147,13 +161,7 @@ export const MealSuggestion: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="relative rounded-xl overflow-hidden">
-                  <img
-                    src={currentMeal.image || "/placeholder.svg"}
-                    alt={currentMeal.name}
-                    className="w-full h-64 object-cover"
-                  />
-                </div>
+                {/* Image container removed */}
                 <p className="text-sage-700 font-sans">{currentMeal.description}</p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   <div className="bg-sage-100 rounded-lg p-3 text-center flex flex-col items-center">
@@ -172,6 +180,7 @@ export const MealSuggestion: React.FC = () => {
                     <p className="text-sm text-sage-600 font-sans">Carbs</p>
                   </div>
                   <div className="bg-sage-100 rounded-lg p-3 text-center flex flex-col items-center">
+                    <Droplet className="h-6 w-6 text-sage-600 mb-2" />
                     <p className="text-lg font-bold text-sage-800 font-display">{currentMeal.fat}g</p>
                     <p className="text-sm text-sage-600 font-sans">Fat</p>
                   </div>
@@ -192,6 +201,9 @@ export const MealSuggestion: React.FC = () => {
                           <li key={index}>{ingredient}</li>
                         ))}
                       </ul>
+                      {totalCost !== null && (
+                        <p className="mt-2 text-sage-800 font-semibold">Total Cost: ${totalCost.toFixed(2)}</p>
+                      )}
                     </motion.div>
                   )}
                 </AnimatePresence>

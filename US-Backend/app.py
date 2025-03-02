@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
+from pricing import calculate_dish_cost
 from bson.objectid import ObjectId
 import json
 from recommendation_algo import generate_dishes, update_user_feedback
@@ -175,6 +176,17 @@ def update_liked_cuisines():
         return jsonify({"error": "Failed to update liked cuisines"}), 500
 
     return jsonify({"message": "Liked cuisines updated successfully"})
+
+@app.route("/calculate_dish_cost", methods=["POST"])
+def calculate_dish_cost_endpoint():
+    data = request.get_json()
+    ingredients = data.get("ingredients")
+    if not ingredients:
+        print("No ingredients provided")  # Debugging line
+        return jsonify({"error": "No ingredients provided."}), 400
+
+    result = calculate_dish_cost(ingredients)
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run(debug=True)
