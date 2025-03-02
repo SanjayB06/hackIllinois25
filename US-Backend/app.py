@@ -5,6 +5,8 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from bson.objectid import ObjectId
+import json
+from recommendation_algo import generate_dishes, update_user_feedback
 
 # Load environment variables from .env file
 load_dotenv()
@@ -56,7 +58,7 @@ def create_user():
     if users_collection.find_one({"email": data["email"]}):
         return jsonify({"error": "User with that email already exists."}), 400
     
-    liked_cuisines = customeranalysis.getOvrInsights(data['account_number'])
+    liked_cuisines = (customeranalysis.getOvrInsights(data['account_number']))
 
     hashed_password = hash_password(data["password"])
     user_doc = {
@@ -116,14 +118,10 @@ def get_profile():
 @app.route("/recommend_dish", methods=["POST"])
 def recommend_dish():
     data = request.get_json()
-    if not data or "user_id" not in data:
-        return jsonify({"error": "Missing user_id"}), 400
+    if not data or "username" not in data:
+        return jsonify({"error": "Missing username"}), 400
 
-    try:
-        user = users_collection.find_one({"_id": ObjectId(data["user_id"])})
-    except Exception:
-        return jsonify({"error": "Invalid user id format"}), 400
-
+    user = users_collection.find_one({"username": data["username"]})
     if not user:
         return jsonify({"error": "User not found"}), 404
 
@@ -140,25 +138,22 @@ def recommend_dish():
         return jsonify({"error": "Failed to generate dishes"}), 500
     return jsonify({"recommendations": recommendations})
 
+
 @app.route("/feedback", methods=["POST"])
 def feedback():
     data = request.get_json()
-    if not data or "user_id" not in data or "dish_name" not in data or "feedback" not in data:
+    if not data or "username" not in data or "dish_name" not in data or "feedback" not in data:
         return jsonify({"error": "Missing fields"}), 400
 
-    try:
-        user = users_collection.find_one({"_id": ObjectId(data["user_id"])})
-    except Exception:
-        return jsonify({"error": "Invalid user id format"}), 400
-
+    user = users_collection.find_one({"username": data["username"]})
     if not user:
         return jsonify({"error": "User not found"}), 404
 
     updated_user = update_user_feedback(user, data["dish_name"], data["feedback"])
-    users_collection.update_one({"_id": ObjectId(data["user_id"])}, {"$set": updated_user})
+    users_collection.update_one({"username": data["username"]}, {"$set": updated_user})
     return jsonify({
         "message": "Feedback processed",
-        "updated_preferences": updated_user.get("preferences", {})
+        "updated_preferences": updated_user.get("liked_foods", [])
     })
 
 @app.route("/update_liked_cuisines", methods=["PUT"])

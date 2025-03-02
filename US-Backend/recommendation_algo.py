@@ -12,12 +12,11 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_api_key)
 
 def generate_dishes(preferences, query):
-    reference_dish = preferences.get("liked_dishes", [""])[0]
     prompt = f"""
 You are a creative chef and food recommendation assistant.
 Given the following user preferences:
 - Favorite Cuisines: {', '.join(preferences.get("favorite_cuisines", []))}
-- Liked Dishes: {', '.join(preferences.get("liked_dishes", []))} (for example, one of the user's favorites is "{reference_dish}")
+- Liked Dishes: {', '.join(preferences.get("liked_dishes", []))} 
 - Disliked Dishes: {', '.join(preferences.get("disliked_dishes", []))}
 - Dietary Restrictions: {', '.join(preferences.get("dietary_restrictions", []))}
 
@@ -79,9 +78,9 @@ Now, based on the query: "{query}", generate the JSON array.
 
 def update_user_feedback(user_profile, dish_name, feedback):
     if feedback.lower() == "like":
-        if dish_name not in user_profile.get("liked_dishes", []):
-            user_profile.setdefault("liked_dishes", []).append(dish_name)
+        if dish_name not in user_profile.get("liked_foods", []):
+            user_profile.setdefault("liked_foods", []).append(dish_name)
     elif feedback.lower() == "dislike":
-        if dish_name not in user_profile.get("disliked_dishes", []):
-            user_profile.setdefault("disliked_dishes", []).append(dish_name)
+        if dish_name not in user_profile.get("disliked_foods", []):
+            user_profile.setdefault("disliked_foods", []).append(dish_name)
     return user_profile
