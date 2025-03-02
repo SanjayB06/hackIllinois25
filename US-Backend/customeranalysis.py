@@ -139,5 +139,5 @@ def getOvrInsights(account):
     # Assuming merchant_analysis is your DataFrame
     return extract_key_insights(merchant_analysis)
     # print(user_insights)
-# print(getOvrInsights(ACCOUNT_ID))
+print(getOvrInsights(ACCOUNT_ID))
 
