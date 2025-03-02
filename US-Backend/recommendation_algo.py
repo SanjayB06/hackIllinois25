@@ -20,7 +20,7 @@ Given the following user preferences:
 - Disliked Dishes: {', '.join(preferences.get("disliked_dishes", []))}
 - Dietary Restrictions: {', '.join(preferences.get("dietary_restrictions", []))}
 
-Please generate exactly a JSON array (no additional text) of 3 candidate dishes that the user might enjoy.
+Please generate exactly a JSON array (no additional text) of 1 candidate dish that the user might enjoy.
 Each dish should be a JSON object with the following keys:
     "name" (string),
     "cuisine" (string),
@@ -35,18 +35,6 @@ For example:
     "ingredients": ["tortillas", "chicken", "cheese", "salsa"],
     "description": "A classic Mexican dish with a spicy kick."
   }},
-  {{
-    "name": "Veggie Pasta Primavera",
-    "cuisine": "Italian",
-    "ingredients": ["gluten-free pasta", "tomatoes", "zucchini", "basil"],
-    "description": "A light and fresh pasta dish."
-  }},
-  {{
-    "name": "Margherita Pizza",
-    "cuisine": "Italian",
-    "ingredients": ["dough", "tomato sauce", "mozzarella", "basil"],
-    "description": "A traditional pizza with simple flavors."
-  }}
 ]
 
 Now, based on the query: "{query}", generate the JSON array.

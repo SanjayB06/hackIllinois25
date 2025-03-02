@@ -14,25 +14,37 @@ interface Meal {
   calories: number
   protein: number
   carbs: number
-  // Additional field for ingredients if needed
+  fat: number
   ingredients?: string[]
 }
 
-// Fallback dummy meal
+// Helper: Generate random nutrition values
+const generateRandomNutrition = () => {
+  return {
+    calories: Math.floor(Math.random() * (800 - 300 + 1)) + 300,  // 300 - 800
+    protein: Math.floor(Math.random() * (40 - 10 + 1)) + 10,       // 10g - 40g
+    carbs: Math.floor(Math.random() * (100 - 30 + 1)) + 30,        // 30g - 100g
+    fat: Math.floor(Math.random() * (30 - 5 + 1)) + 5,             // 5g - 30g
+  }
+}
+
+// Fallback dummy meal without nutrition values (they will be set on the client)
 const dummyMeal: Meal = {
   id: 1,
   name: "Margherita Pizza",
   image: "/placeholder.svg?height=300&width=400",
   description: "Classic pizza with fresh tomatoes, mozzarella, basil, and a crispy crust.",
-  calories: 700,
-  protein: 25,
-  carbs: 90,
-  ingredients: ["dough", "tomatoes", "mozzarella", "basil"]
+  calories: 0, // default value
+  protein: 0,
+  carbs: 0,
+  fat: 0,
+  ingredients: ["dough", "tomatoes", "mozzarella", "basil"],
 }
 
 export const MealSuggestion: React.FC = () => {
   const [currentMeal, setCurrentMeal] = useState<Meal>(dummyMeal)
   const [direction, setDirection] = useState<"left" | "right" | null>(null)
+  const [showIngredients, setShowIngredients] = useState(false)
 
   // Retrieve username from localStorage (set on login)
   const storedUsername = typeof window !== "undefined" ? localStorage.getItem("username") : null
@@ -49,14 +61,34 @@ export const MealSuggestion: React.FC = () => {
       })
       const data = await response.json()
       if (data.recommendations && data.recommendations.length > 0) {
-        // Use the first recommendation; assign a unique id for animations
-        const dish: Meal = { id: Date.now(), ...data.recommendations[0] }
+        const baseDish = data.recommendations[0]
+        // Set the dish without nutrition info first
+        const dish: Meal = {
+          id: Date.now(),
+          name: baseDish.name || dummyMeal.name,
+          image: baseDish.image || dummyMeal.image,
+          description: baseDish.description || dummyMeal.description,
+          calories: 0, // to be updated on client
+          protein: 0,
+          carbs: 0,
+          fat: 0,
+          ingredients: baseDish.ingredients || dummyMeal.ingredients,
+        }
         setCurrentMeal(dish)
       }
     } catch (error) {
       console.error("Error fetching recommended dish:", error)
     }
   }
+
+  // Update nutrition values on client mount (or when currentMeal changes with 0 nutrition)
+  useEffect(() => {
+    // Only update if nutrition hasn't been set yet
+    if (currentMeal.calories === 0) {
+      const nutrition = generateRandomNutrition()
+      setCurrentMeal((prevMeal) => ({ ...prevMeal, ...nutrition }))
+    }
+  }, [currentMeal])
 
   // Send feedback to the backend (like/dislike) for the current dish
   const sendFeedback = async (dishName: string, feedbackType: "like" | "dislike") => {
@@ -73,7 +105,6 @@ export const MealSuggestion: React.FC = () => {
     }
   }
 
-  // On mount, fetch a recommended dish
   useEffect(() => {
     if (storedUsername) {
       fetchRecommendedDish()
@@ -83,11 +114,8 @@ export const MealSuggestion: React.FC = () => {
   const handleLike = async () => {
     if (!currentMeal) return
     await sendFeedback(currentMeal.name, "like")
-    setDirection("right")
-    setTimeout(() => {
-      fetchRecommendedDish()
-      setDirection(null)
-    }, 300)
+    setShowIngredients(true)
+    // Do not refresh the card on like
   }
 
   const handleDislike = async () => {
@@ -97,6 +125,7 @@ export const MealSuggestion: React.FC = () => {
     setTimeout(() => {
       fetchRecommendedDish()
       setDirection(null)
+      setShowIngredients(false)
     }, 300)
   }
 
@@ -142,7 +171,31 @@ export const MealSuggestion: React.FC = () => {
                     <p className="text-lg font-bold text-sage-800 font-display">{currentMeal.carbs}g</p>
                     <p className="text-sm text-sage-600 font-sans">Carbs</p>
                   </div>
+                  <div className="bg-sage-100 rounded-lg p-3 text-center flex flex-col items-center">
+                    <p className="text-lg font-bold text-sage-800 font-display">{currentMeal.fat}g</p>
+                    <p className="text-sm text-sage-600 font-sans">Fat</p>
+                  </div>
                 </div>
+                
+                <AnimatePresence>
+                  {showIngredients && currentMeal.ingredients && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-4 p-4 bg-sage-50 rounded-lg"
+                    >
+                      <h3 className="text-lg font-semibold text-sage-800 mb-2">Ingredients:</h3>
+                      <ul className="list-disc list-inside text-sage-700">
+                        {currentMeal.ingredients.map((ingredient, index) => (
+                          <li key={index}>{ingredient}</li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                
                 <div className="flex justify-between">
                   <Button onClick={handleDislike} className="bg-red-500 hover:bg-red-600 text-white font-display">
                     <ThumbsDown className="mr-2 h-4 w-4" /> Dislike
