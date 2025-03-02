@@ -46,11 +46,7 @@ def create_user():
 
     # Added "account_number" to required fields
     required_fields = [
-        "account_number", "username", "email", "password", "liked_foods", "disliked_foods",
-=======
-    required_fields = [
         "id", "username", "email", "password", "liked_foods", "disliked_foods",
->>>>>>> b9ed5f65f08324e99f1dbeafd68fd2ebfaffad32
         "liked_cuisines", "food_allergies", "dietary_restrictions", "location",
         "monthly_income", "monthly_bills", "expenses"
     ]
